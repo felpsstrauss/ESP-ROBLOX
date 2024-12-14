@@ -1,0 +1,48 @@
+--Abaixo estara a Lib da nossa ui
+
+local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/7yhx/kwargs_Ui_Library/main/source.lua"))()
+
+local UI = Lib:Create{
+    Theme = "Dark", -- or any other theme
+    Size = UDim2.new(0, 555, 0, 400) -- default
+ }
+ 
+ local Main = UI:Tab{
+    Name = "Ínicio"
+ }
+ 
+ local Divider = Main:Divider{
+    Name = "Ínicio shit"
+ }
+ 
+ local QuitDivider = Main:Divider{
+    Name = "Sair"
+ }
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Camera = game:GetService("Workspace").CurrentCamera
+
+-- Função para criar um marcador ESP
+local function createESP(player)
+    local highlight = Instance.new("Highlight")
+    highlight.Parent = player.Character
+    highlight.FillColor = Color3.new(1, 0, 0) -- Cor do marcador (vermelho)
+    highlight.OutlineColor = Color3.new(1, 1, 1) -- Cor do contorno (branco)
+end
+
+-- Conectar a função quando um jogador entra no jogo
+Players.PlayerAdded:Connect(function(player)
+    player.CharacterAdded:Connect(function(character)
+        createESP(player)
+    end)
+end)
+
+-- Criar ESP para jogadores que já estão no jogo
+for _, player in ipairs(Players:GetPlayers()) do
+    if player ~= LocalPlayer then
+        player.CharacterAdded:Connect(function(character)
+            createESP(player)
+        end)
+    end
+end
